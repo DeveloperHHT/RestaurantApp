@@ -23,7 +23,7 @@ namespace backend.Services
             _repository.Add(product);
         }
 
-        public Product UpdateProduct(int id, Product product)
+        public Product? UpdateProduct(int id, Product product)
         {
             var existingProduct = _repository.GetById(id);
             if (existingProduct == null) return null;
@@ -31,9 +31,10 @@ namespace backend.Services
             existingProduct.Name = product.Name;
             existingProduct.Price = product.Price;
             _repository.Update(existingProduct);
-            
+
             return existingProduct;
         }
+
 
         public bool DeleteProduct(int id)
         {

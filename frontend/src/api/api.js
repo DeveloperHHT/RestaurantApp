@@ -1,19 +1,17 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5207/api/product";  // Eğer backend farklı bir portta çalışıyorsa güncelle!
+const API_URL = "http://localhost:5001/api/product"; // Backend URL
 
-export const getProducts = async () => {
-    return await axios.get(API_URL);
-};
+export const getProducts = () => axios.get(API_URL);
 
-export const addProduct = async (product) => {
-    return await axios.post(API_URL, product);
-};
+export const addProduct = (product) =>
+  axios.post(API_URL, JSON.stringify(product), {
+    headers: { "Content-Type": "application/json" },
+  });
 
-export const updateProduct = async (product) => {
-    return await axios.put(API_URL, product);
-};
+export const updateProduct = (id, product) =>
+  axios.put(`${API_URL}/${id}`, JSON.stringify(product), {
+    headers: { "Content-Type": "application/json" },
+  });
 
-export const deleteProduct = async (id) => {
-    return await axios.delete(`${API_URL}/${id}`);
-};
+export const deleteProduct = (id) => axios.delete(`${API_URL}/${id}`);

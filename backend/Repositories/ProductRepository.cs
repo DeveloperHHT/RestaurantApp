@@ -1,8 +1,8 @@
-using backend.Data;  // Bu satırı ekleyelim
+using backend.Data;  
 using backend.Models;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore; // Entity Framework için gerekli
+using Microsoft.EntityFrameworkCore; 
 
 namespace backend.Repositories
 {
@@ -26,10 +26,11 @@ namespace backend.Repositories
             _context.SaveChanges();
         }
 
-        public Product GetById(int id)
+        public Product? GetById(int id)  
         {
             return _context.Products.FirstOrDefault(p => p.Id == id);
         }
+
 
         public void Update(Product product)
         {

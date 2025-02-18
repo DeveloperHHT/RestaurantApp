@@ -29,12 +29,19 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Consumes("application/json")] // 🔹 Backend'in sadece JSON formatını kabul etmesini sağla
     public IActionResult UpdateProduct(int id, [FromBody] Product product)
     {
+        if (product == null)
+        {
+            return BadRequest(new { message = "Geçersiz veri formatı!" });
+        }
+
         var updatedProduct = _productService.UpdateProduct(id, product);
         if (updatedProduct == null) return NotFound(new { message = "Ürün bulunamadı!" });
         return Ok(updatedProduct);
     }
+
 
     [HttpDelete("{id}")]
     public IActionResult DeleteProduct(int id)

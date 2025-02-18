@@ -1,34 +1,39 @@
 using backend.Data;
-using backend.Services;
 using backend.Repositories;
+using backend.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS izinlerini aç
+// ✅ Veritabanı bağlantısı ekleyelim
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=restaurant.db"));
+
+// ✅ CORS ayarlarını ekleyelim
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins",
-        builder => builder.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<ProductService>();
+// ✅ Servisleri ekleyelim
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductService>();
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// ✅ Controllerları ekleyelim
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null; // JSON'daki büyük/küçük harf duyarlılığını kaldırır
+});
+
 
 var app = builder.Build();
 
-app.UseCors("AllowAllOrigins"); // CORS Middleware
-
+// ✅ Middleware'leri ekleyelim
+app.UseCors("AllowAll");
+app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
 

@@ -13,7 +13,7 @@ const DatabaseView = () => {
 
   const fetchTables = async () => {
     try {
-      const response = await axios.get("http://localhost:5207/api/database/tables");
+      const response = await axios.get("http://localhost:5001/api/database/tables");
       setTables(response.data);
     } catch (error) {
       console.error("Tabloları alırken hata oluştu:", error);
@@ -22,7 +22,7 @@ const DatabaseView = () => {
 
   const fetchTableData = async (tableName) => {
     try {
-      const response = await axios.get(`http://localhost:5207/api/database/table/${tableName}`);
+      const response = await axios.get(`http://localhost:5001/api/database/table/${tableName}`);
       setSelectedTable(tableName);
       setTableData(response.data);
     } catch (error) {
