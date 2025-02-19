@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getReservations } from "../api/api";
 
 const Reservations = () => {
-  return (
-    <div>
-      <h2>Rezervasyon Sayfası</h2>
-      <p>Burada müşterilerin restoran için rezervasyon yapabileceği bir form olacak.</p>
-    </div>
-  );
+    const [reservations, setReservations] = useState([]);
+
+    useEffect(() => {
+        getReservations().then(setReservations);
+    }, []);
+
+    return (
+        <div>
+            <h1>Reservations</h1>
+            <ul>
+                {reservations.map(reservation => (
+                    <li key={reservation.id}>
+                        {reservation.customerName} - {reservation.reservationDate} - {reservation.numberOfPeople} Kişi
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 };
 
 export default Reservations;

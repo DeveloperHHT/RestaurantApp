@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getIngredients } from "../api/api";
 
 const Ingredients = () => {
-  return (
-    <div>
-      <h2>Malzemeler Sayfası</h2>
-      <p>Burada restoranın kullandığı malzemeler listelenecek.</p>
-    </div>
-  );
+    const [ingredients, setIngredients] = useState([]);
+
+    useEffect(() => {
+        getIngredients().then(setIngredients);
+    }, []);
+
+    return (
+        <div>
+            <h1>Ingredients</h1>
+            <ul>
+                {ingredients.map(ingredient => (
+                    <li key={ingredient.id}>{ingredient.name} - {ingredient.stockQuantity} adet</li>
+                ))}
+            </ul>
+        </div>
+    );
 };
 
 export default Ingredients;

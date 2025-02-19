@@ -5,9 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// **📌 Veritabanı Bağlantısını Ekle**
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=restaurant.db"));
+    options.UseSqlServer("Server=.;Database=RestaurantDB;Trusted_Connection=True;"));
 
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductService>();
