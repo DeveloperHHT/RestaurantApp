@@ -5,34 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Veritabanı bağlantısı ekleyelim
+// **📌 Veritabanı Bağlantısını Ekle**
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=restaurant.db"));
 
-// ✅ CORS ayarlarını ekleyelim
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        policy => policy.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader());
-});
-
-// ✅ Servisleri ekleyelim
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductService>();
 
-// ✅ Controllerları ekleyelim
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.PropertyNamingPolicy = null; // JSON'daki büyük/küçük harf duyarlılığını kaldırır
-});
-
-
+builder.Services.AddControllers();
 var app = builder.Build();
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
-// ✅ Middleware'leri ekleyelim
-app.UseCors("AllowAll");
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();

@@ -1,17 +1,33 @@
-import axios from "axios";
+import axios from 'axios';
+const API_BASE_URL = "http://localhost:5001/api"; 
 
-const API_URL = "http://localhost:5001/api/product"; // Backend URL
+const API_URL = "http://localhost:5001/api/product";  
 
-export const getProducts = () => axios.get(API_URL);
+export const getProducts = async () => {
+    const response = await axios.get(API_URL);
+    return response.data;
+};
 
-export const addProduct = (product) =>
-  axios.post(API_URL, JSON.stringify(product), {
-    headers: { "Content-Type": "application/json" },
-  });
 
-export const updateProduct = (id, product) =>
-  axios.put(`${API_URL}/${id}`, JSON.stringify(product), {
-    headers: { "Content-Type": "application/json" },
-  });
+export const addProduct = async (product) => {
+    const response = await axios.post(API_URL, product, {
+        headers: {
+            "Content-Type": "application/json"  
+        }
+    });
+    return response.data;
+};
 
-export const deleteProduct = (id) => axios.delete(`${API_URL}/${id}`);
+export const updateProduct = async (id, product) => {
+    const response = await axios.put(`${API_URL}/${id}`, product, {
+        headers: {
+            "Content-Type": "application/json"  
+        }
+    });
+    return response.data;
+};
+
+export const deleteProduct = async (id) => {
+    const response = await axios.delete(`${API_URL}/${id}`);
+    return response.data;
+};

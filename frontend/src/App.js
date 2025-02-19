@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import AdminPanel from "./pages/AdminPanel";
+import AdminPanel from "./pages/Admin";
 import DatabaseView from "./pages/DatabaseView";
 
 function App() {

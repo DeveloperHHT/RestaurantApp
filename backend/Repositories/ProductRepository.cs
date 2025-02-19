@@ -1,8 +1,7 @@
-using backend.Data;  
+using backend.Data;
 using backend.Models;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore; 
 
 namespace backend.Repositories
 {
@@ -19,6 +18,10 @@ namespace backend.Repositories
         {
             return _context.Products.ToList();
         }
+        public Product? GetById(int id)
+        {
+            return _context.Products.FirstOrDefault(p => p.Id == id);
+        }
 
         public void Add(Product product)
         {
@@ -26,21 +29,16 @@ namespace backend.Repositories
             _context.SaveChanges();
         }
 
-        public Product? GetById(int id)  
-        {
-            return _context.Products.FirstOrDefault(p => p.Id == id);
-        }
-
-
         public void Update(Product product)
         {
             _context.Products.Update(product);
             _context.SaveChanges();
         }
 
+
         public void Delete(int id)
         {
-            var product = GetById(id);
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
             if (product != null)
             {
                 _context.Products.Remove(product);
